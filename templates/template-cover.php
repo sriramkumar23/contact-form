@@ -11,11 +11,48 @@
 get_header();
 ?>
 
+<style>
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px;
+      width: 100%;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
 <main id="site-content">
 
 	<div class="container">
 		<h2>Contact Us</h2>
-		<form id="contactForm">
+		<form id="contactForm" method="POST" action="">
 			<label for="name">Name</label>
 			<input type="text" id="name" name="name">
 
@@ -32,8 +69,6 @@ get_header();
 			
 		</form>
 	</div>
-
-	
 
 </main><!-- #site-content -->
 
