@@ -28,7 +28,7 @@ get_header();
 			<label for="message">Message</label>
 			<textarea id="message" name="message" rows="4"></textarea>
 
-			<button type="submit">Submit</button>
+			<button type="submit" name="submit_form">Submit</button>
 			
 		</form>
 	</div>
