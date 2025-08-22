@@ -817,3 +817,25 @@ function twentytwenty_get_elements_array() {
 	 */
 	return apply_filters( 'twentytwenty_get_elements_array', $elements );
 }
+
+//Add contact form menu under dashboard
+function contact_form_dashboard_menu() {
+    add_menu_page(
+        'Contact Form',  //page title
+        'Contact Form',  //Menu title in admin
+        'manage_options', //capbility required to access the page 
+        'contact-form',   //Menu slug in admin for setting page
+        'contact_us_page', //call back function to render the page
+        'dashicons-forms', //icon of menu
+        '3' //position of menu
+    );
+}
+add_action('admin_menu', 'contact_form_dashboard_menu');
+// Render the contact_us_page
+function contact_us_page() { 
+    ?>
+    <div class="wrap">
+        <h2><?php echo 'Contact Form Data'; ?></h2>
+    </div>
+    <?php  
+} 	
