@@ -52,23 +52,40 @@ get_header();
 
 	<div class="container">
 		<h2>Contact Us</h2>
-		<form id="contactForm" method="POST" action="">
+		<form id="contactForm" method="POST" action="#" onsubmit="return validateContactForm()" >
 			<label for="name">Name</label>
-			<input type="text" id="name" name="name">
+			<input type="text" id="name" name="name" required>
 
 			<label for="email">Email</label>
-			<input type="email" id="email" name="email">
+			<input type="email" id="email" name="email" required>
 
 			<label for="mobile">Mobile</label>
-			<input type="text" id="mobile" name="mobile" maxlength="10">
+			<input type="text" id="mobile" name="mobile" maxlength="10" required>
 			
 			<label for="message">Message</label>
 			<textarea id="message" name="message" rows="4"></textarea>
 
-			<button type="submit" name="submit_form">Submit</button>
+			<button type="submit" name="submit_form" value="submit">Submit</button>
 			
 		</form>
 	</div>
+
+	<script>
+		function validateContactForm() {
+			
+			const email = document.getElementById('email').value.trim();
+			console.log(email);
+			// Basic email pattern check
+			const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+			if (!email.match(emailPattern)) {
+				errorMessage.textContent = "Please enter a valid email address.";
+				return false;
+			}
+
+			// alert("Message sent successfully!");
+			// return true;
+		}
+		</script>
 
 </main><!-- #site-content -->
 
