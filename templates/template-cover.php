@@ -13,18 +13,25 @@ get_header();
 
 <main id="site-content">
 
-	<?php
+	<div class="container">
+		<h2>Contact Us</h2>
+		<form id="contactForm">
+			<label for="name">Name</label>
+			<input type="text" id="name" name="name">
 
-	if ( have_posts() ) {
+			<label for="email">Email</label>
+			<input type="email" id="email" name="email">
 
-		while ( have_posts() ) {
-			the_post();
+			<label for="mobile">Mobile</label>
+			<input type="text" id="mobile" name="mobile" maxlength="10">
+			
+			<label for="message">Message</label>
+			<textarea id="message" name="message" rows="4"></textarea>
 
-			get_template_part( 'template-parts/content-cover' );
-		}
-	}
-
-	?>
+			<button type="submit">Submit</button>
+			
+		</form>
+	</div>
 
 </main><!-- #site-content -->
 
