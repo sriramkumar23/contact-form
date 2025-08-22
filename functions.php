@@ -817,3 +817,88 @@ function twentytwenty_get_elements_array() {
 	 */
 	return apply_filters( 'twentytwenty_get_elements_array', $elements );
 }
+
+//Add contact form menu under dashboard
+function contact_form_dashboard_menu() {
+    add_menu_page(
+        'Contact Form',  //page title
+        'Contact Form',  //Menu title in admin
+        'manage_options', //capbility required to access the page 
+        'contact-form',   //Menu slug in admin for setting page
+        'contact_us_page', //call back function to render the page
+        'dashicons-forms', //icon of menu
+        '3' //position of menu
+    );
+}
+add_action('admin_menu', 'contact_form_dashboard_menu');
+// Render the contact_us_page
+function contact_us_page() { 
+    ?>
+    <div class="wrap">
+        <h2><?php echo 'Contact Form Data'; ?></h2>
+    </div>
+    <?php  
+} 	
+
+
+// Create a contact form table in the database
+function create_contact_form_table() {
+    if ( is_page('contact') ) {
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+ 
+        $contact_form_table = $wpdb->prefix . "contact_form";
+ 
+        $contact_form_table_query = "CREATE TABLE IF NOT EXISTS $contact_form_table (
+            id mediumint(9) NOT NULL AUTO_INCREMENT,
+            name varchar(100) NOT NULL,
+            email varchar(100) NOT NULL,
+            mobile int(20),
+			message varchar(100) NOT NULL,
+            create_at datetime DEFAULT CURRENT_TIMESTAMP,
+            update_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+            PRIMARY KEY (id)
+        ) $charset_collate;";
+ 
+        require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+        dbDelta($contact_form_table_query);
+    }
+}
+add_action('template_redirect', 'create_contact_form_table');
+
+
+
+// Insert data into the contact form table
+function contact_form_insert_data($name, $email, $mobile, $message){
+    global $wpdb;
+    $contact_form_table = $wpdb->prefix . "contact_form";
+
+    // Sanitize input data before inserting into the database
+    $wpdb->insert(
+        $contact_form_table,
+        array(
+            'name'    => sanitize_text_field($name),
+            'email'   => sanitize_email($email), // Use sanitize_email for the email field
+            'mobile'   => sanitize_text_field($mobile),
+            'message' => sanitize_textarea_field($message),
+        )
+    );
+}
+
+// Handle form submission
+function handle_contact_form_submission() {
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_form'])) {
+        // Check that all required fields are provided
+        if (isset($_POST['name'], $_POST['email'], $_POST['message']) && !empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['message'])) {
+            // Insert form data into the database
+            contact_form_insert_data($_POST['name'], $_POST['email'], $_POST['mobile'], $_POST['message']);
+            echo '<p>Form data inserted successfully!</p>';
+        } else {
+            echo '<p style="color:red;">Please fill out all required fields.</p>';
+        }
+		
+    }
+	
+}
+	
+add_action('wp', 'handle_contact_form_submission'); // Hook to handle form submission
